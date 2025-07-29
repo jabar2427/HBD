@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kejutan Ulang Tahun Spesial</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600&display=swap');
+        
+        :root {
+            --primary: #ff85a2;
+            --secondary: #ffd3b6;
+            --accent: #a3c7d6;
+
+
+            
+            --dark: #424242;
+            --light: #f9f7f7;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, var(--secondary), var(--light));
+            color: var(--dark);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            position: relative;
+            z-index: 20;
+        }
+        
+        h1, h2, h3 {
+            font-family: 'Dancing Script', cursive;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+        
+        /* Animasi teks berkedip */
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        
+        /* Animasi mengambang */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        /* Animasi getar */
+        @keyframes shake {
+            0% { transform: rotate(0deg); }
+            25% { transform: rotate(-5deg); }
+            50% { transform: rotate(0deg); }
+            75% { transform: rotate(5deg); }
+            100% { transform: rotate(0deg); }
+        }
+        
+        /* Header */
+        header {
+            text-align: center;
+            padding: 1rem 0;
+            position: relative;
+        }
+        
+        .birthday-title {
+            font-size: 3rem;
+            color: var(--primary);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            animation: blink 2s infinite, float 4s ease-in-out infinite;
+            margin-bottom: 1.5rem;
+        }
+        
+        /* Kartu ucapan */
+        .card-container {
+            perspective: 1000px;
+            width: 300px;
+            height: 400px;
+            margin: 2rem auto;
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .card {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 1.5s;
+            transform-origin: left center;
+        }
+        
+        .card.opened {
+            transform: rotateY(-180deg);
+        }
+        
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+        }
+        
+        .card-front {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            transform: rotateY(0deg);
+        }
+        
+        .card-back {
+            background: linear-gradient(135deg, var(--accent), var(--primary));
+            transform: rotateY(180deg);
+        }
+        
+        .card img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+        
+        .gift-icon {
+            font-size: 4rem;
+            color: white;
+            margin-bottom: 1rem;
+            animation: shake 1s infinite;
+        }
+        
+        /* Pesan */
+        .message {
+            background-color: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .message::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary), var(--accent), var(--secondary));
+        }
+        
+        .hidden-message {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 0 0 10px 10px;
+            margin-top: -1rem;
+        }
+        
+        .show-more {
+            display: inline-block;
+            margin-top: 1rem;
+            padding: 0.5rem 1rem;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .show-more:hover {
+            background-color: var(--accent);
+            transform: scale(1.05);
+        }
+        
+        /* Gallery */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        
+        .gallery-item {
+            position: relative;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+            transition: transform 0.3s;
+            height: 200px;
+        }
+        
+        .gallery-item:hover {
+            transform: scale(1.05);
+            z-index: 10;
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+        
+        /* Konfeti */
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background-color: var(--primary);
+            opacity: 0.8;
+            animation: confetti-fall 5s linear infinite;
+            z-index: 10;
+        }
+        
+        @keyframes confetti-fall {
+            0% {
+                transform: translateY(-100vh) rotate(0deg);
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+            }
+        }
+        
+        /* Musik player */
+        .music-player {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+            cursor: pointer;
+            z-index: 100;
+            transition: all 0.3s;
+        }
+        
+        .music-player:hover {
+            transform: scale(1.1);
+            background-color: var(--secondary);
+        }
+        
+        .music-icon {
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+        
+        /* Responsif */
+        @media (max-width: 768px) {
+            .birthday-title {
+                font-size: 2rem;
+            }
+            
+            .card-container {
+                width: 250px;
+                height: 350px;
+            }
+            
+            .gallery {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <audio id="bgMusic" loop>
+        <source src="laguhbd.mp3" type="audio/mpeg">
+    </audio>
+    
+    <div class="music-player" id="musicToggle">
+        <i class="fas fa-music music-icon"></i>
+    </div>
+    
+    <div class="container">
+        <header>
+            <h1 class="birthday-title">Selamat Ulang Tahun!</h1>
+            <h2>Hari Spesial Untuk Orang Spesial</h2>
+        </header>
+        
+        <div class="card-container">
+            <div class="card" id="birthdayCard">
+                <div class="card-front">
+                    <i class="fas fa-gift gift-icon"></i>
+                    <h3>Klik untuk Membuka</h3>
+                    <img src="hbd4.jpeg" alt="Kado ulang tahun berwarna pink dengan pita merah muda di atas meja kayu">
+                </div>
+                <div class="card-back">
+                    <h3>Kejutan Untukmu!</h3>
+                    <svg viewBox="0 0 100 100" width="100" height="100">
+                        <path fill="#FFD700" d="M50,10 L60,40 L90,40 L65,60 L75,90 L50,75 L25,90 L35,60 L10,40 L40,40 Z" />
+                    </svg>
+                    <p style="color: white; margin-top: 1rem;">Semoga harimu menyenangkan!</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="message">
+            <h3>Untukmu yang tersayang,</h3>
+            <p>Hallo Nadyaa di hari yang istimewa ini, aku ingin mengucapkan...</p>
+            <button class="show-more" id="showMoreBtn">Baca Selengkapnya</button>
+            <div class="hidden-message" id="hiddenMessage">
+                <p>Selamat ulang tahun yang penuh kebahagiaan! Semoga tahun ini membawa banyak keberuntungan, kesehatan, dan kebahagiaan dalam hidupmu. Teruslah bersinar seperti bintang yang selalu menerangi kegelapan. Semoga semua impian dan harapanmu terkabul. Semoga kita selalu bisa berbagi tawa dan kebahagiaan bersama di hari-hari mendatang.</p>
+                <p style="text-align: right; font-style: italic;">- Dari yang menyayangimu -</p>
+            </div>
+        </div>
+        
+        <div class="gallery">
+            <div class="gallery-item">
+                <img src="hbd.jpeg" alt="Pesta ulang tahun dengan balon warna-warni dan kue di atas meja">
+            </div>
+            <div class="gallery-item">
+                <img src="hbd1.jpeg" alt="Lilin ulang tahun yang menyala di atas kue coklat dengan dekorasi kreatif">
+            </div>
+            <div class="gallery-item">
+                <img src="hbd2.jpeg" alt="Hadiah ulang tahun berwarna-warni dengan pita di lantai kayu">
+            </div>
+            <div class="gallery-item">
+                <img src="hbd3.jpeg" alt="Tangan memegang segelas champagne dengan latar belakang pesta">
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Membuat konfeti
+        function createConfetti() {
+            const colors = ['#ff85a2', '#ffd3b6', '#a3c7d6', '#95e1d3', '#fce38a'];
+            const confettiCount = 100;
+            
+            for (let i = 0; i < confettiCount; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.width = Math.random() * 10 + 5 + 'px';
+                confetti.style.height = confetti.style.width;
+                confetti.style.animationDuration = Math.random() * 3 + 2 + 's';
+                confetti.style.animationDelay = Math.random() * 5 + 's';
+                document.body.appendChild(confetti);
+            }
+        }
+        
+        // Animasi kartu
+        document.getElementById('birthdayCard').addEventListener('click', function() {
+            this.classList.toggle('opened');
+        });
+        
+        // Tampilkan pesan tersembunyi
+        document.getElementById('showMoreBtn').addEventListener('click', function() {
+            const hiddenMessage = document.getElementById('hiddenMessage');
+            if (hiddenMessage.style.maxHeight) {
+                hiddenMessage.style.maxHeight = null;
+                this.textContent = 'Baca Selengkapnya';
+            } else {
+                hiddenMessage.style.maxHeight = hiddenMessage.scrollHeight + 'px';
+                this.textContent = 'Sembunyikan';
+            }
+        });
+        
+        // Kontrol musik
+        const musicToggle = document.getElementById('musicToggle');
+        const bgMusic = document.getElementById('bgMusic');
+        
+        musicToggle.addEventListener('click', function() {
+            if (bgMusic.paused) {
+                bgMusic.play();
+                this.querySelector('i').style.color = 'var(--primary)';
+            } else {
+                bgMusic.pause();
+                this.querySelector('i').style.color = '#ccc';
+            }
+        });
+        
+        // Posisikan musik player di pojok saat scroll
+        window.addEventListener('scroll', function() {
+            const musicPlayer = document.querySelector('.music-player');
+            musicPlayer.style.bottom = '20px';
+        });
+        
+        // Inisialisasi
+        window.onload = function() {
+            createConfetti();
+            
+            // Auto play musik dengan delay setelah interaksi pengguna
+            setTimeout(() => {
+                bgMusic.volume = 0.3;
+                const playPromise = bgMusic.play();
+                
+                if (playPromise !== undefined) {
+                    playPromise.catch(error => {
+                        console.log('Auto play musik gagal:', error);
+                    });
+                }
+            }, 1000);
+            
+            // Animasi elemen secara berurutan
+            const elements = document.querySelectorAll('.birthday-title, .card-container, .message, .gallery');
+            elements.forEach((el, index) => {
+                setTimeout(() => {
+                    el.style.opacity = '1';
+                    el.style.transform = 'translateY(0)';
+                }, index * 300 + 500);
+                
+                // Setel properti awal
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+                el.style.transition = 'opacity 0.5s, transform 0.5s';
+            });
+        };
+    </script>
+</body>
+</html>
+
